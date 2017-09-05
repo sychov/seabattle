@@ -1,67 +1,87 @@
-// MAP class declaration
+//
+//   Header: Map class provides all operations with seabattle map
+// 
+///////////////////////////////////////////////////////////////////////////
+
+
+#pragma once
 
 #include <vector>
 
 
-enum Fire_result { FIRE_Miss, FIRE_Miss_double, FIRE_Miss_destroyed, FIRE_Hit, FIRE_Hit_drown, FIRE_Hit_end };
-enum Directions {DIR_UNDEFINED,	DIR_UP,	DIR_DOWN, DIR_LEFT, DIR_RIGHT};
+// =========================================  MAP Class  ========================================= //
 
-const int DIRECTIONS_COORDS[5][2] = { { 0, 0 }, { 0, -1 }, { 0, 1 }, { -1, 0 }, { 1, 0 } };
-const int MAP_SIZE = 10;
-
-
+// Provides all operations with battlefield map, including
+// "firing", operations with ships and various checking.
 class Map
 {
+public:
+
+	// -----ENUM -----
+
+	enum class FireResult		{ Miss, MissDouble, MissDestroyed, Hit, HitDrown, HitEnd };
+	enum class Directions		{ Undefined, Up, Down, Left, Right };
+	enum class Alignment		{ Horizontal, Vertical };
+	enum class Owner			{ Player, Enemy };
+	enum class ShipState		{ Alive, Drown };
+
+	// -----METHODS----- 
+
+	Map(Owner owner);
+	void						Draw() const;
+	void						RedrawCell(int x, int y, ShipState state) const;
+	FireResult					FireToCell(int x, int y);
+	bool						AddShip(int x, int y, int length, Alignment align);
+	bool						HasShipsToDeploy(int length) const;
+	bool						HasShipsToDeploy() const;
+	bool						CanFireHere(int x, int y) const;
+	bool						CanFireHereDirectional(int x, int y, Directions direction_check) const;
+
+	// -----CONST-----
+
+	static const int			k_mapSize = 10;
+
+	// ----------------------------------------------------
+
 private:
 
-	// ENUM
+	// -----ENUM-----
 
-	enum Map_cell { CELL_Empty, CELL_Destroyed, CELL_Fired, CELL_Ship };
+	enum class CellState		{ Empty, Destroyed, Fired, Ship };
 
-	// CONST
+	// -----STRUCT-----
 
-	static const int PLAYER_MAP_X = 10;
-	static const int PLAYER_MAP_Y = 2;
-	static const int ENEMY_MAP_X = 45;
-	static const int ENEMY_MAP_Y = 2;
-
-	const char *MAP_SEPARATOR = "+-+-+-+-+-+-+-+-+-+-+";
-
-	// STRUCT
-
-	struct Ship_Block
+	struct ShipBlock
 	{
-		int x = -1;
-		int y = -1;
-		bool ok = true;
+		int			x = -1;
+		int			y = -1;
+		bool		ok = true;
 	};
 
 	struct Ship
 	{
-		Ship_Block coords[4];
-		int length = 0;
+		int			length = 0;
+		ShipBlock	coords[4];
 	};
 
-	// ATTRIBUTES
+	// -----METHODS-----
 
-	Map_cell			map[MAP_SIZE][MAP_SIZE];
-	std::vector <Ship>	ships;
-	int					ship_positions_free[5];
+	bool						CanDeployShipHere(int x, int y) const;
+	bool						IsValidCoord(int x, int y) const;
+
+	// -----MEMBER VARS-----
+
+	int							m_shipPositionsFree[5];
+	Owner						m_owner;
+	CellState					m_map[k_mapSize][k_mapSize];
+	std::vector <Ship>			m_ships;
 	
-	// METHODS
+	// -----CONST-----
 
-	bool _can_put_ship_here(int x, int y);
-
-public:
-	
-	// METHODS
-
-	Map();
-	void			draw_map(bool hidden);
-	void			renew_map_cell(int x, int y, bool hidden, bool draw_drown = false);
-	bool			add_ship(int x, int y, int length, bool vertical = false, bool silent = true);
-	bool			has_unused_ships(int length = -1);
-	Fire_result		fire_to_cell(int x, int y, bool hidden);
-	bool			can_fire_here(int x, int y);
-	bool			can_fire_here_limited(int x, int y, Directions direction_check);
+	static const int 			k_playerMapX = 10;
+	static const int 			k_playerMapY = 2;
+	static const int 			k_enemyMapX = 45;
+	static const int 			k_enemyMapY = 2;
+	static const char 			*k_mapSeparator;
+		
 };

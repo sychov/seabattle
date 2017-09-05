@@ -1,44 +1,58 @@
-// Game console module header
+//
+//   Header: Game Console class provides input/output in Seabattle game console
+// 
+/////////////////////////////////////////////////////////////////////////////////////
 
-#include "screen.h"
+
+#pragma once
 
 
-struct Coords
+// =======================================  CONSOLE Class  ========================================= //
+
+//Provides text input/output in Seabattle game console.
+class Console
 {
-	int x;
-	int y;
-};
-
-
-class Seabattle_Console
-{
-private:
-		
-	// ATTRIBUTES
-
-	int current_row = 0;
-	std::string temp_string;
-	
-	// METHODS
-
-	void clear_last_row();
-
 public:
 
-	// ENUM
+	// -----STRUCT----- 
 
-	enum Message { MSG_Normal, MSG_Error, MSG_System };
+	struct Coords
+	{
+		int x, y;
+	};
 
-	// METHODS
+	//  -----ENUM----- 
 
-	void	show_message(char *message, Message status = MSG_Normal);
-	void	show_message();
-	void	show_error(char *message);
-	void	show_computer_turn(char *message, int x, int y);
-	int		ask_for_int(char * message);
-	Coords	ask_for_coords(char * message);
-	bool	ask_for_yesno(char *message);
-	void	pause();
-	void	cls();
+	enum class MessageType	{ Normal, Error, System };
+
+	//  -----METHODS----- 
+
+	void					ShowMessage(char *message, MessageType status = MessageType::Normal);
+	void					ShowEmptyRow();
+	void					ShowError(char *message);
+	void					ShowComputerTurn(char *message, int x, int y);
+	int						AskForInt(char *message);
+	Coords					AskForCoords(char *message);
+	bool					AskForYesNo(char *message);
+	void					Pause();
+	void					ClearConsole();
+
+	// ----------------------------------------------------
+
+private:
+
+	// -----METHODS----- 
+
+	void					DeleteLastConsoleRow();
+
+	// -----MEMBER VARS----- 
+
+	int						m_currentRow = 0;
+	std::string				m_tempString;
+
+	// -----CONST----- 
+
+	static const char		*k_emptyWideString;
+
 };
 

@@ -10,6 +10,19 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Console.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="screen.cpp" />
+    <ClCompile Include="start.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="screen.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D828DDDE-3DBF-466E-945B-0AA81F5ABEFF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,19 +90,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="console.cpp" />
-    <ClCompile Include="SeaBattle.cpp" />
-    <ClCompile Include="map.cpp" />
-    <ClCompile Include="screen.cpp" />
-    <ClCompile Include="flow.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="flow.h" />
-    <ClInclude Include="console.h" />
-    <ClInclude Include="screen.h" />
-    <ClInclude Include="map.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
