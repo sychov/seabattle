@@ -1,4 +1,8 @@
-// Screen output module
+//
+//   Some functions for text-mode output with color and positioning 
+// 
+///////////////////////////////////////////////////////////////////////////////
+
 
 #include "screen.h"
 #include <windows.h>
@@ -10,38 +14,37 @@ static COORD coord;
 
 namespace seabattle_screen {
 
-	void goto_xy(int x, int y)
+	// Move text cursor to (x,y) position.
+	void GotoXY(int x, int y)
 	{
 		coord.X = x;
 		coord.Y = y;
 		SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 	}
 
-	void setcolor(Colors fg, Colors bg)
+
+	// Set foreground and background colors.
+	void SetColor(Colors fg, Colors bg)
 	{
-		unsigned char sheme = fg + (bg << 4);
+		unsigned char sheme = static_cast <unsigned int> (fg) + (static_cast <unsigned int> (bg) << 4);
 		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), sheme);
 	}
 
-	void outtext(int x, int y, char ch, Colors fg, Colors bg)
+
+	// Print single character at specific (x,y) position with specific foreground and background colors.
+	void PrintChar(int x, int y, char character, Colors fg, Colors bg)
 	{
-		goto_xy(x, y);
-		setcolor(fg, bg);
-		std::cout << ch;
+		GotoXY(x, y);
+		SetColor(fg, bg);
+		std::cout << character;
 	}
 
-	void outtext(int x, int y, char *string, Colors fg, Colors bg)
+	// Print C-string at specific (x,y) position with specific foreground and background colors.
+	void PrintString(int x, int y, const char *str, Colors fg, Colors bg)
 	{
-		goto_xy(x, y);
-		setcolor(fg, bg);
-		std::cout << string;
-	}
-	
-	void outtext(int x, int y, std::string &string)
-	{
-		goto_xy(x, y);
-		setcolor(LightGrey, Black);
-		std::cout << string;
+		GotoXY(x, y);
+		SetColor(fg, bg);
+		std::cout << str;
 	}
 
 }

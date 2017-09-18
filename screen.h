@@ -1,23 +1,33 @@
-// Screen header
+//
+//   Header: some functions for text-mode output with color and positioning 
+// 
+///////////////////////////////////////////////////////////////////////////////
 
-#include <string>
+
+#pragma once
 
 
 namespace seabattle_screen {
 
-	enum Colors 
+	// -----ENUMS-----
+
+	enum class Colors 
 	{
 		Black, Blue, Green, Cyan, Red, Magenta, Yellow, LightGrey,
 		Grey, LightBlue, LightGreen, LightCyan, LightRed, LightMagenta, LightYellow, White
 	};
 
-	void outtext(int x, int y, char ch, Colors fg = White, Colors bg = Black);
-	void outtext(int x, int y, char *string, Colors fg = White, Colors bg = Black);
-	void outtext(int x, int y, std::string &string);
-	void goto_xy(int x, int y);
-	void setcolor(Colors fg, Colors bg);
+	// -----FUNCTIONS-----
 
-	const int MESSAGES_ROW = 27;
-	const int MAX_MESSAGES_ROWS_COUNT = 8;
+	void		PrintChar(int x, int y, char character, Colors fg, Colors bg);
+	void		PrintString(int x, int y, const char *str, Colors fg, Colors bg);
+	void		GotoXY(int x, int y);
+	void		SetColor(Colors fg, Colors bg);
+
+	// -----CONST-----
+
+	const int	k_messagesStartRow = 27;
+	const int	k_messagesMaxRows = 8;
 
 }
+
